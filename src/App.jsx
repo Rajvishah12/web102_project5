@@ -7,8 +7,9 @@ function App() {
   const [list, setList] = useState(null);
   const [filteredResults, setFilteredResults] = useState(null);
   const [searchInput, setSearchInput] = useState("");
-  const [descriptions, setDescriptions] = useState([]);
   const [bottomRange, setBottomRange] = useState(20);
+  const [lowTemps, setLowTemps] = useState([]);
+  const [highTemps, setHighTemps] = useState([]);
 
   useEffect(() => {
     const fetchAllWeatherData = async () => {
@@ -21,11 +22,13 @@ function App() {
       setFilteredResults(json); // initialize filtered results to full list
       console.log(json);
 
-      const newDescriptions = [
-        ...new Set(json.data.map((item) => item.weather.description)),
-      ];
-      setDescriptions(newDescriptions); // unique values only
-      console.log(newDescriptions);
+      if (list) {
+        const lows = list.data.map((item) => (item.low_temp * 9) / 5 + 32);
+        setLowTemps(lows);
+        const highs = list.data.map((item) => (item.high_temp * 9) / 5 + 32);
+        setHighTemps(highs);
+      }
+
     };
     fetchAllWeatherData().catch(console.error);
   }, []);
@@ -62,7 +65,6 @@ function App() {
         placeholder="Search..."
         // when user types in input box, it triggers searchItems function
         // inputString is the "evenet object" changing indicates change in input box
-        // onChange={(inputString) => searchItems(inputString.target.value)}
         onChange={(inputString) => setSearchInput(inputString.target.value)}
       />
 
