@@ -22,10 +22,10 @@ function App() {
       setFilteredResults(json); // initialize filtered results to full list
       console.log(json);
 
-      if (list) {
-        const lows = list.data.map((item) => (item.low_temp * 9) / 5 + 32);
+      if (json) {
+        const lows = json.data.map((item) => (item.low_temp*9/5+32));
         setLowTemps(lows);
-        const highs = list.data.map((item) => (item.high_temp * 9) / 5 + 32);
+        const highs = json.data.map((item) => (item.high_temp*9/5+32));
         setHighTemps(highs);
       }
 
@@ -56,9 +56,30 @@ function App() {
     setFilteredResults({ data:currentData });
   };
 
+  const calculateMean = (temps) => {
+    let sum = 0;
+    temps.forEach(element => {
+      sum += Number(element);
+    });
+    return (sum/temps.length).toFixed(2);
+  };
+
+  const calculateMaxTemp = (temps) =>{
+    let max = 0;
+    temps.forEach(element =>{
+      if(element > max){
+        max = element;
+      }
+    })
+    return max;
+  }
+
   return (
     <div className="whole-page">
       <h1>Weather in Chicago</h1>
+      <p>Mean Low Temp: {calculateMean(lowTemps)}</p>
+      <p>Mean High Temp: {calculateMean(highTemps)}</p>
+      <p>Max High Temp: {calculateMaxTemp(highTemps)}</p>
 
       <input
         type="text"
