@@ -43,7 +43,7 @@ Here's a walkthrough of implemented user stories:
 <img src='src/assets/recording.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 <!-- Replace this with whatever GIF tool you used! -->
-GIF created with ...  
+GIF created with Kap  
 <!-- Recommended tools:
 [Kap](https://getkap.co/) for macOS
 [ScreenToGif](https://www.screentogif.com/) for Windows
@@ -51,11 +51,11 @@ GIF created with ...
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+It was challenging to get both filters to work at once when I was trying to use state variables instead of a local one.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2025 Rajvi Shah
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
