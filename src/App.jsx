@@ -5,7 +5,7 @@ const API_KEY = import.meta.env.VITE_APP_API_KEY;
 
 function App() {
   const [list, setList] = useState(null);
-  const [filteredResults, setFilteredResults] = useState(null);
+  const [filteredResults, setFilteredResults] = useState({data:[]});
   const [searchInput, setSearchInput] = useState("");
   const [bottomRange, setBottomRange] = useState(20);
   const [lowTemps, setLowTemps] = useState([]);
@@ -18,9 +18,9 @@ function App() {
           API_KEY
       );
       const json = await response.json();
+      console.log(json.data);
       setList(json);
       setFilteredResults(json); // initialize filtered results to full list
-      console.log(json);
 
       if (json) {
         const lows = json.data.map((item) => (item.low_temp*9/5+32));
@@ -33,13 +33,13 @@ function App() {
     fetchAllWeatherData().catch(console.error);
   }, []);
 
-  const useFilters = () => {
-    
+  useEffect (() => {
+    if (!list) return; // needed to avoid race condition -- this useEffect running 
+    // before list is set from the API returns a response
     let currentData = list.data;
 
     // apply search filter
     if (searchInput !== "") {
-      console.log("here!");
       currentData = currentData.filter((item) =>
         // combines all values in weatherInfo object into single string and searches that string for searchValue
         item.datetime.toLowerCase().includes(searchInput.toLowerCase())
@@ -52,9 +52,8 @@ function App() {
         (item) => (item.low_temp * 9) / 5 + 32 >= bottomRange
       );
     }
-    console.log(currentData);
     setFilteredResults({ data:currentData });
-  };
+  }, [bottomRange, searchInput]);
 
   const calculateMean = (temps) => {
     let sum = 0;
@@ -71,7 +70,7 @@ function App() {
         max = element;
       }
     })
-    return max;
+    return max.toFixed(2);
   }
 
   return (
@@ -88,8 +87,10 @@ function App() {
         // inputString is the "evenet object" changing indicates change in input box
         onChange={(inputString) => setSearchInput(inputString.target.value)}
       />
-
+      <br></br>
+      <br></br>
       <label>Above this Low Temp (20-60°F)</label>
+      <span className = 'tab'></span>
       <input
         type="range"
         name="temp"
@@ -100,9 +101,7 @@ function App() {
         onChange={(event) => setBottomRange(Number(event.target.value))}
       ></input>
 
-      <button onClick={useFilters}>Submit</button>
-
-      {(searchInput.length > 0) | (bottomRange > 20) ? (
+      {(searchInput.length > 0) || (bottomRange > 20) ? (
         // what happens if we have search input? what list do we use to display coins?
         <ul>
           {filteredResults.data.map((weatherData) => (
