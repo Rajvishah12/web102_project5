@@ -41,7 +41,6 @@ function App() {
     // apply search filter
     if (searchInput !== "") {
       currentData = currentData.filter((item) =>
-        // combines all values in weatherInfo object into single string and searches that string for searchValue
         item.datetime.toLowerCase().includes(searchInput.toLowerCase())
       );
     }
