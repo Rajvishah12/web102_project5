@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import WeatherInfo from "./components/WeatherInfo.jsx";
+import Chart from "./components/Chart.jsx"; 
 const API_KEY = import.meta.env.VITE_APP_API_KEY;
 
 function App() {
@@ -126,6 +127,15 @@ function App() {
           ))}
         </ul>
       )}
+      
+      {list ? (
+        <div className="charts-section">
+        <Chart data ={list.data} metric ="rh" title="Humidity %"/>
+        <Chart data = {list.data} metric="uv" title="UV"/>
+        </div>) : (
+        <p>loading charts...</p>
+      )}
+
     </div>
   );
 }

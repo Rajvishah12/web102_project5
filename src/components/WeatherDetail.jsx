@@ -32,9 +32,9 @@ function WeatherDetail() {
                     <p>High Temp: {(weatherData.high_temp * 9/5 + 32).toFixed(1)}°F</p>
                     <p>Low Temp: {(weatherData.low_temp * 9/5 + 32).toFixed(1)}°F</p>
                     <p>Description: {weatherData.weather.description}</p>
-                    <p>Humidity: {weatherData.rh}%</p>
+                    <p>Relative Humidity: {weatherData.rh}%</p>
                     <p>Wind Speed: {weatherData.wind_spd} m/s</p>
-                    <p>Precipitation: {weatherData.precip} mm</p>
+                    <p>Precipitation: {weatherData.precip} mm/hr</p>
                 </div>
             ) : (
                 // return nothing if data not fetched
